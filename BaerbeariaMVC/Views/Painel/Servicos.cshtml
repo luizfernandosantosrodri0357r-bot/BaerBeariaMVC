@@ -1,0 +1,378 @@
+﻿@model List<BaerbeariaMVC.Models.Servico>
+@{
+    Layout = null;
+    var aviso = TempData["Aviso"] as string;
+    var ok = TempData["Ok"] as string;
+}
+
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços e Valores - Barber UNIP</title>
+
+        
+    <link rel="icon" href="~/img/icon/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="apple-touch-icon" href="~/img/icon/apple-touch-icon.png">
+
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="~/img/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/img/icon/favicon-16x16.png">
+    <link rel="manifest" href="~/img/icon/site.webmanifest">
+    <link rel="stylesheet" href="~/css/style.css">
+
+    <style>
+        body {
+            background-color: #0e0e0e;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Topo Administrativo */
+        header {
+            background-color: #141414;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .Logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .LogoImg {
+            height: 42px;
+            width: auto;
+        }
+
+        .Links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .Links a, .btn-logout {
+            color: #dddddd;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .Links a:hover, .btn-logout:hover {
+            color: #d4af37;
+        }
+
+        .Links a.ativo {
+            color: #d4af37;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 4px;
+        }
+
+        /* Contentor e Secções */
+        .container-admin {
+            flex: 1;
+            max-width: 1100px;
+            width: 100%;
+            margin: 30px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .secao-admin-bloco {
+            background-color: #181818;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .topo-secao {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 15px;
+        }
+
+        .topo-secao h2 {
+            color: #d4af37;
+            font-size: 1.6rem;
+            margin: 0 0 8px 0;
+        }
+
+        .topo-secao p {
+            color: #888888;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* Alertas e Notificações */
+        .alerta {
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alerta-aviso {
+            background-color: rgba(231, 76, 60, 0.15);
+            border: 1px solid #e74c3c;
+            color: #ff6b6b;
+        }
+
+        .alerta-ok {
+            background-color: rgba(46, 204, 113, 0.15);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+        }
+
+        /* Tabela de Preços */
+        .tabela-responsiva {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .tabela-admin {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .tabela-admin th {
+            background-color: #121212;
+            color: #d4af37;
+            padding: 14px 18px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #2a2a2a;
+        }
+
+        .tabela-admin td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #242424;
+            font-size: 0.95rem;
+            color: #dddddd;
+            vertical-align: middle;
+        }
+
+        .tabela-admin tbody tr:hover {
+            background-color: #1e1e1e;
+        }
+
+        .preco-atual {
+            color: #d4af37;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        /* Formulário de Alteração de Preço */
+        .form-preco {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 250px;
+        }
+
+        .input-moeda-container {
+            display: flex;
+            align-items: center;
+            background-color: #242424;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 0 10px;
+            transition: border-color 0.2s;
+        }
+
+        .input-moeda-container:focus-within {
+            border-color: #d4af37;
+        }
+
+        .simbolo-moeda {
+            color: #888;
+            font-size: 0.9rem;
+            margin-right: 4px;
+        }
+
+        .form-preco input[type="text"] {
+            width: 90px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            padding: 9px 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            outline: none;
+        }
+
+        .btn-salvar {
+            background-color: #d4af37;
+            color: #121212;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-salvar:hover {
+            background-color: #f1c40f;
+            transform: translateY(-1px);
+        }
+
+        .sem-dados {
+            text-align: center;
+            padding: 30px;
+            color: #777777;
+            font-size: 0.95rem;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #0c0c0c;
+            border-top: 1px solid #222222;
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        footer p {
+            color: #777777;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a asp-controller="Painel" asp-action="Index" class="Logo">
+                <img src="~/img/logo/barbearia.png" alt="Logo" class="LogoImg">
+                <span>Barber UNIP - Admin</span>
+            </a>
+            <ul class="Links">
+                <li><a asp-controller="Painel" asp-action="Index">Agendamentos</a></li>
+                <li><a asp-controller="Painel" asp-action="Barbeiros">Barbeiros</a></li>
+                <li><a asp-controller="Painel" asp-action="Servicos" class="ativo">Serviços</a></li>
+                <li>
+                    <form asp-controller="Conta" asp-action="Sair" method="post" style="display:inline;">
+                        <button type="submit" class="btn-logout">Sair</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container-admin">
+
+        
+        @if (!string.IsNullOrEmpty(aviso))
+        {
+            <div class="alerta alerta-aviso">
+                <span>⚠️</span>
+                <span>@aviso</span>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(ok))
+        {
+            <div class="alerta alerta-ok">
+                <span>✓</span>
+                <span>@ok</span>
+            </div>
+        }
+
+        <section class="secao-admin-bloco">
+            <div class="topo-secao">
+                <h2>Serviços e Tabela de Valores</h2>
+                <p>Consulte os preços em vigor e atualize os valores exibidos aos clientes.</p>
+            </div>
+
+            <div class="tabela-responsiva">
+                <table class="tabela-admin">
+                    <thead>
+                        <tr>
+                            <th>Serviço</th>
+                            <th>Valor Atual</th>
+                            <th style="width: 280px;">Definir Novo Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var s in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <strong style="color: #ffffff; font-size: 1.05rem;">@s.Nome</strong>
+                                    </td>
+                                    <td>
+                                        <span class="preco-atual">R$ @s.Preco.ToString("N2")</span>
+                                    </td>
+                                    <td>
+                                        <form asp-action="AlterarPreco" method="post" class="form-preco">
+                                            <input type="hidden" name="id" value="@s.Id" />
+                                            <div class="input-moeda-container">
+                                                <span class="simbolo-moeda">R$</span>
+                                                <input type="text" name="preco" value="@s.Preco.ToString("0.00")" required autocomplete="off" />
+                                            </div>
+                                            <button type="submit" class="btn-salvar">Gravar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="sem-dados">Nenhum serviço registado na base de dados.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Barber Unip. Painel Administrativo de Gestão.</p>
+    </footer>
+</body>
+
+</html>

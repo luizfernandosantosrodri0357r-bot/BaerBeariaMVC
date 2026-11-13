@@ -1,0 +1,100 @@
+﻿@{
+    Layout = null;
+    var erro = ViewBag.Erro as string;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - Barber Unip</title>
+
+    
+    <link rel="icon" href="~/img/icon/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="apple-touch-icon" href="~/img/icon/apple-touch-icon.png">
+
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="~/img/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/img/icon/favicon-16x16.png">
+    <link rel="manifest" href="~/img/icon/site.webmanifest">
+
+    <link rel="stylesheet" href="~/css/login.css">
+    <style>
+        /* Alerta de erro estilizado no padrão do tema */
+        .msg-erro-login {
+            background-color: rgba(231, 76, 60, 0.15);
+            border: 1px solid #e74c3c;
+            color: #ff6b6b;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a asp-controller="Home" asp-action="Index" class="Logo">
+                <img src="~/img/logo/barbearia.png" alt="Logo" class="LogoImg">
+                <span>Barber Unip</span>
+            </a>
+            <ul class="Links">
+                <li>
+                    <a asp-controller="Home" asp-action="Index">Voltar</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="LoginB">
+            <h2>LOGIN ADMIN</h2>
+
+            @if (!string.IsNullOrEmpty(erro))
+            {
+                <div class="msg-erro-login">
+                    ⚠️ @erro
+                </div>
+            }
+
+            <form asp-controller="Conta" asp-action="Login" method="post">
+                <div class="Login">
+                    <label for="usuario">Admin:</label>
+                    <input type="text" id="usuario" name="usuario" placeholder="Usuário" autocomplete="username" required>
+                </div>
+
+                <div class="Login">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" name="senha" placeholder="Senha" autocomplete="current-password" required>
+                </div>
+
+                <button type="submit" class="btn-entrar">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Barber Unip. Todos os direitos reservados.</p>
+    </footer>
+
+    
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+</body>
+
+</html>

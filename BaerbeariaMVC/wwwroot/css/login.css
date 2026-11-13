@@ -1,0 +1,180 @@
+/* ==========================================================
+   ESTILOS DE LOGIN - BARBER UNIP
+   ========================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #0d0d0d;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Header e Navegação */
+header {
+    background-color: #141414;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    padding: 15px 40px;
+}
+
+    header nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+.Logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.LogoImg {
+    height: 42px;
+    width: auto;
+}
+
+.Links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+    .Links a {
+        color: #d4af37;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: color 0.2s ease;
+    }
+
+        .Links a:hover {
+            color: #f1c40f;
+            text-decoration: underline;
+        }
+
+/* Contentor Central */
+.container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* Cartão de Login */
+.LoginB {
+    background-color: #171717;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 14px;
+    width: 100%;
+    max-width: 420px;
+    padding: 45px 35px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+    .LoginB h2 {
+        color: #d4af37;
+        text-align: center;
+        font-size: 1.7rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        margin-bottom: 30px;
+    }
+
+/* Agrupamento de Inputs */
+.Login {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 22px;
+}
+
+    .Login label {
+        color: #cccccc;
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .Login input {
+        width: 100%;
+        background-color: #242424;
+        border: 1px solid #3d3d3d;
+        border-radius: 8px;
+        padding: 13px 15px;
+        color: #ffffff;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .Login input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+            background-color: #2a2a2a;
+        }
+
+        .Login input::placeholder {
+            color: #777777;
+        }
+
+/* Botão Entrar */
+.btn-entrar {
+    width: 100%;
+    background-color: #d4af37;
+    color: #121212;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .btn-entrar:hover {
+        background-color: #f1c40f;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(212, 175, 55, 0.35);
+    }
+
+/* Mensagem de Erro */
+.msg-erro-login {
+    background-color: rgba(231, 76, 60, 0.15);
+    border: 1px solid #e74c3c;
+    color: #ff6b6b;
+    padding: 11px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 22px;
+    text-align: center;
+}
+
+/* Rodapé */
+footer {
+    background-color: #141414;
+    border-top: 1px solid #222222;
+    padding: 18px 20px;
+    text-align: center;
+}
+
+    footer p {
+        color: #777777;
+        font-size: 0.9rem;
+    }

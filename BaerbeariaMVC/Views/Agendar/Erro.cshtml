@@ -1,0 +1,138 @@
+﻿@{
+    Layout = null;
+    var mensagemErro = ViewBag.Erro as string ?? "Ocorreu um erro ao processar o seu agendamento.";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviso de Agendamento - Barber UNIP</title>
+        
+    <link rel="icon" href="~/img/icon/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="apple-touch-icon" href="~/img/icon/apple-touch-icon.png">
+
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="~/img/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/img/icon/favicon-16x16.png">
+    <link rel="manifest" href="~/img/icon/site.webmanifest">
+    <link rel="stylesheet" href="~/css/style.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card-erro {
+            background: #1a1a1a;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            max-width: 520px;
+            width: 100%;
+            padding: 45px 35px;
+            text-align: center;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .icone-erro {
+            font-size: 3.2rem;
+            margin-bottom: 18px;
+            color: #e74c3c;
+        }
+
+        .card-erro h1 {
+            color: #d4af37;
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .card-erro .descricao-erro {
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 25px 0 35px 0;
+        }
+
+        .botoes-acao {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-tentar-novamente {
+            background-color: #d4af37;
+            color: #121212;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-tentar-novamente:hover {
+            background-color: #f1c40f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-voltar-home {
+            background: transparent;
+            color: #aaa;
+            border: 1px solid #444;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-voltar-home:hover {
+            border-color: #d4af37;
+            color: #d4af37;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-erro">
+        <div class="icone-erro">⚠️</div>
+        <h1>Não foi possível agendar</h1>
+
+        <div class="descricao-erro">
+            @mensagemErro
+        </div>
+
+        <div class="botoes-acao">
+            <button type="button" onclick="history.back()" class="btn-tentar-novamente">
+                Corrigir Informações
+            </button>
+            <a asp-controller="Agendar" asp-action="Index" class="btn-voltar-home">
+                Escolher Outro Profissional
+            </a>
+            <a asp-controller="Home" asp-action="Index" class="btn-voltar-home">
+                Voltar à Página Inicial
+            </a>
+        </div>
+    </div>
+</body>
+</html>

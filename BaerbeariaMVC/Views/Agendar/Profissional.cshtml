@@ -1,0 +1,221 @@
+﻿@model SortedDictionary<DateTime, List<DateTime>>
+@{
+    Layout = null;
+    var barbeiro = ViewBag.Barbeiro as BaerbeariaMVC.Models.Barbeiro;
+    var servicos = ViewBag.Servicos as List<BaerbeariaMVC.Models.Servico>;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horários de @barbeiro?.Nome - Barber UNIP</title>
+        
+    <link rel="icon" href="~/img/icon/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="apple-touch-icon" href="~/img/icon/apple-touch-icon.png">
+
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="~/img/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/img/icon/favicon-16x16.png">
+    <link rel="manifest" href="~/img/icon/site.webmanifest">
+    <link rel="stylesheet" href="~/css/style.css">
+    <style>
+        body { background-color: #121212; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .pagina-profissional { max-width: 950px; margin: 30px auto; padding: 20px; }
+        .btn-voltar { color: #d4af37; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+        .perfil-topo { text-align: center; margin-bottom: 30px; }
+        .perfil-topo h1 { color: #d4af37; font-size: 2.2rem; margin-bottom: 5px; }
+        .perfil-topo p { color: #aaa; }
+
+        .bloco-secao {
+            background: #1a1a1a; border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 12px; padding: 25px; margin-bottom: 25px;
+        }
+        .bloco-secao h2 { color: #fff; font-size: 1.3rem; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+
+        /* Grade de Dias */
+        .grade-dias { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
+        .btn-dia {
+            background: #252525; border: 1px solid #444; color: #fff;
+            padding: 12px 18px; border-radius: 8px; cursor: pointer;
+            text-align: center; font-size: 0.95rem; white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .btn-dia:hover { border-color: #d4af37; color: #d4af37; }
+        .btn-dia.ativo { background: #d4af37; color: #121212; font-weight: bold; border-color: #d4af37; }
+
+        /* Grade de Horários */
+        .grade-horarios-container { min-height: 80px; }
+        .container-dia-horarios { display: none; }
+        .container-dia-horarios.ativo { display: flex; flex-wrap: wrap; gap: 12px; }
+        
+        .card-hora {
+            background: #222; border: 1px solid #444; border-radius: 6px;
+            padding: 10px 16px; cursor: pointer; transition: all 0.2s ease;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card-hora:hover { border-color: #d4af37; }
+        .card-hora input[type="radio"] { display: none; }
+        .card-hora.selecionado { background: #d4af37; color: #121212; font-weight: bold; border-color: #d4af37; }
+
+        /* Formulário de Dados */
+        .grupo-campo { margin-bottom: 18px; }
+        .grupo-campo label { display: block; margin-bottom: 6px; color: #ddd; font-weight: 500; }
+        .grupo-campo input, .grupo-campo select {
+            width: 100%; padding: 12px; background: #252525; border: 1px solid #444;
+            border-radius: 6px; color: #fff; font-size: 1rem; box-sizing: border-box;
+        }
+        .grupo-campo input:focus, .grupo-campo select:focus {
+            outline: none; border-color: #d4af37; box-shadow: 0 0 5px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-confirmar {
+            width: 100%; background: #d4af37; color: #121212; border: none;
+            padding: 15px; border-radius: 8px; font-size: 1.15rem; font-weight: bold;
+            cursor: pointer; transition: background 0.3s ease; margin-top: 10px;
+        }
+        .btn-confirmar:hover { background: #f1c40f; }
+    </style>
+</head>
+<body>
+    <div class="pagina-profissional">
+        <a asp-action="Index" class="btn-voltar">← Escolher outro profissional</a>
+
+        <div class="perfil-topo">
+            <h1>@barbeiro?.Nome</h1>
+            <p>Selecione a data, o horário e confirme seus dados</p>
+        </div>
+
+        <form asp-action="Confirmar" method="post">
+            <input type="hidden" name="BarbeiroId" value="@barbeiro?.Id" />
+            <input type="hidden" id="DataHoraSelecionada" name="DataHora" required />
+
+            
+            <div class="bloco-secao">
+                <h2>1. Selecione o Dia</h2>
+                <div class="grade-dias">
+                    @{
+                        int indexDia = 0;
+                        if (Model != null)
+                        {
+                            foreach (var dia in Model.Keys)
+                            {
+                                var classeAtiva = indexDia == 0 ? "ativo" : "";
+                                <button type="button" class="btn-dia @classeAtiva" data-dia-id="dia-@indexDia">
+                                    @dia.ToString("ddd, dd/MM")
+                                </button>
+                                indexDia++;
+                            }
+                        }
+                    }
+                </div>
+            </div>
+
+            
+            <div class="bloco-secao">
+                <h2>2. Horários Disponíveis</h2>
+                <div class="grade-horarios-container">
+                    @{
+                        int indexContainer = 0;
+                        if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                var classeExibir = indexContainer == 0 ? "ativo" : "";
+                                <div id="dia-@indexContainer" class="container-dia-horarios @classeExibir">
+                                    @if (item.Value.Any())
+                                    {
+                                        foreach (var hora in item.Value)
+                                        {
+                                            <div class="card-hora" onclick="selecionarHorario(this, '@hora.ToString("yyyy-MM-ddTHH:mm:ss")')">
+                                                <span>@hora.ToString("HH:mm")</span>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p style="color: #888;">Nenhum horário livre para este dia.</p>
+                                    }
+                                </div>
+                                indexContainer++;
+                            }
+                        }
+                    }
+                </div>
+            </div>
+
+            
+            <div class="bloco-secao">
+                <h2>3. Seus Dados e Serviço</h2>
+                <div class="grupo-campo">
+                    <label>Escolha o Serviço</label>
+                    <select name="ServicoId" required>
+                        <option value="" disabled selected>Selecione o serviço desejado</option>
+                        @if (servicos != null)
+                        {
+                            foreach (var s in servicos)
+                            {
+                                <option value="@s.Id">@s.Nome - R$ @s.Preco.ToString("N2")</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="grupo-campo">
+                    <label>Seu Nome Completo</label>
+                    <input type="text" name="NomeCliente" placeholder="Ex: Thiago Silva" required />
+                </div>
+
+                <div class="grupo-campo">
+                    <label>WhatsApp / Telefone (com DDD)</label>
+                    <input type="tel" name="Telefone" id="telefone" placeholder="(62) 99999-9999" maxlength="15" oninput="mascaraTelefone(this)" required />
+                </div>
+
+                <button type="submit" class="btn-confirmar">Confirmar Agendamento</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        
+        document.querySelectorAll('.btn-dia').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.btn-dia').forEach(b => b.classList.remove('ativo'));
+                document.querySelectorAll('.container-dia-horarios').forEach(c => c.classList.remove('ativo'));
+
+                this.classList.add('ativo');
+                const idContainer = this.getAttribute('data-dia-id');
+                const containerAtivo = document.getElementById(idContainer);
+                if (containerAtivo) {
+                    containerAtivo.classList.add('ativo');
+                }
+            });
+        });
+
+        
+        function selecionarHorario(elemento, valorIso) {
+            document.querySelectorAll('.card-hora').forEach(c => c.classList.remove('selecionado'));
+            elemento.classList.add('selecionado');
+            document.getElementById('DataHoraSelecionada').value = valorIso;
+        }
+
+        
+        function mascaraTelefone(input) {
+            let v = input.value.replace(/\D/g, "");
+            if (v.length > 11) v = v.substring(0, 11);
+            if (v.length > 10) {
+                input.value = `(${v.substring(0,2)}) ${v.substring(2,7)}-${v.substring(7)}`;
+            } else if (v.length > 6) {
+                input.value = `(${v.substring(0,2)}) ${v.substring(2,6)}-${v.substring(6)}`;
+            } else if (v.length > 2) {
+                input.value = `(${v.substring(0,2)}) ${v.substring(2)}`;
+            } else {
+                input.value = v;
+            }
+        }
+    </script>
+</body>
+</html>

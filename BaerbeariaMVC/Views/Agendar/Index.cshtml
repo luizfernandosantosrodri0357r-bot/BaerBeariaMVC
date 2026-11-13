@@ -1,0 +1,91 @@
+﻿@model List<BaerbeariaMVC.Models.Barbeiro>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha o Profissional - Barber UNIP</title>
+       
+    <link rel="icon" href="~/img/icon/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="apple-touch-icon" href="~/img/icon/apple-touch-icon.png">
+
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="~/img/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/img/icon/favicon-16x16.png">
+    <link rel="manifest" href="~/img/icon/site.webmanifest">
+    <link rel="stylesheet" href="~/css/style.css">
+    <style>
+        body { background-color: #121212; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .pagina-agendamento { max-width: 900px; margin: 40px auto; padding: 20px; }
+        .cabecalho-etapa { text-align: center; margin-bottom: 40px; }
+        .cabecalho-etapa h1 { color: #d4af37; font-size: 2.2rem; margin-bottom: 10px; }
+        .cabecalho-etapa p { color: #aaa; }
+        .grid-barbeiros { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+        .card-barbeiro {
+            background: #1a1a1a;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .card-barbeiro:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+        .avatar-barbeiro {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: #252525; border: 2px solid #d4af37;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px auto; font-size: 2rem; color: #d4af37;
+        }
+        .card-barbeiro h3 { font-size: 1.4rem; margin-bottom: 20px; color: #fff; }
+        .btn-ver-horarios {
+            background-color: #d4af37; color: #121212;
+            padding: 10px 25px; border-radius: 6px;
+            font-weight: 600; text-decoration: none; display: inline-block;
+            transition: all 0.2s ease;
+        }
+        .btn-ver-horarios:hover { background-color: #f1c40f; transform: scale(1.05); }
+        .btn-voltar { display: inline-block; margin-bottom: 25px; color: #d4af37; text-decoration: none; font-size: 0.95rem; }
+        .btn-voltar:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="pagina-agendamento">
+        <a asp-controller="Home" asp-action="Index" class="btn-voltar">← Voltar para a Home</a>
+        
+        <div class="cabecalho-etapa">
+            <h1>Escolha o Profissional</h1>
+            <p>Selecione com quem você deseja ser atendido:</p>
+        </div>
+
+        <div class="grid-barbeiros">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var b in Model)
+                {
+                    <div class="card-barbeiro">
+                        <div class="avatar-barbeiro">✂️</div>
+                        <h3>@b.Nome</h3>
+                        <a asp-action="Profissional" asp-route-id="@b.Id" class="btn-ver-horarios">
+                            Ver Horários
+                        </a>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="text-align: center; color: #888;">Nenhum barbeiro disponível no momento.</p>
+            }
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,239 @@
+@font-face {
+    font-family: Nav;
+    src: url(../font/BiotripSerif-Bold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: Logo;
+    src: url(../font/Marley\ Antique.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: texto;
+    src: url(../font/Eloura\ Sans.otf) format('truetype');
+}
+
+body {
+    background-color: #181818;
+    color: #ffffff;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+    padding: 0px;
+    height: 100vh;
+}
+
+nav {
+    background-color: #0c0c0c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    position: fixed;
+    width: 100%;
+    box-sizing: border-box;
+    height: 10vh;
+
+}
+
+nav li {
+    list-style: none;
+    text-decoration: none;
+
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Nav';
+}
+
+.Logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    font-size: 35px;
+    font-family: 'Logo';
+}
+
+.LogoImg {
+    height: 60px;
+    width: auto;
+    padding-right: 10px;
+
+}
+
+.Links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10vh;
+}
+
+/* ==========================================
+   ESTILIZAÇÃO DO FILTRO DE AGENDAMENTOS
+   ========================================== */
+.filtro-agenda {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #0c0c0c;
+    padding: 15px;
+    border-top: 1px solid #333;
+}
+
+.filtro-agenda label {
+    font-family: 'Nav';
+    color: #d4af37;
+}
+
+.filtro-agenda input[type="date"] {
+    background: #181818;
+    border: 1px solid #333;
+    padding: 8px;
+    border-radius: 6px;
+    color: #fff;
+}
+
+/* Ajuste específico para o botão dentro do bloco de filtro */
+.filtro-agenda .btn-cancelar {
+    padding: 8px 15px;
+}
+
+/* Blocos de Seção do Admin */
+.secao-admin-bloco {
+    background-color: #0c0c0c;
+    border-radius: 10px;
+    padding: 20px 0px 00px 0px;
+    border: 1px solid #333;
+    margin-top: 40px;
+    width: 70%;
+    margin-bottom: 10px;
+}
+
+.titulo-tabela {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+.titulo-tabela h2 {
+    font-family: 'Nav';
+    color: #d4af37;
+    margin: 0;
+}
+
+.tabela-admin {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'texto';
+    text-align: left;
+}
+
+.tabela-admin th,
+.tabela-admin td {
+    padding: 12px;
+    border-top: 1px solid #222;
+    text-align: center;
+}
+
+.tabela-admin td:nth-child(3) {
+    width: 25%;
+    text-align: center;
+    padding-right: 20px;
+}
+
+.tabela-admin th {
+    color: #d4af37;
+    font-weight: normal;
+}
+
+
+/* Inputs Editáveis na Tabela */
+.input-editavel {
+    background-color: #181818;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    font-family: 'texto';
+    width: 90%;
+    font-weight: normal;
+}
+
+.input-editavel:focus {
+    border-color: #d4af37;
+    outline: none;
+}
+
+/* Botões do Admin */
+.btn-novo {
+    background-color: #d4af37;
+    color: #000;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'texto';
+    font-weight: normal;
+    margin-right: 15px;
+}
+
+.btn-acao {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'texto';
+    margin: 10px 5px 10px 5px;
+    font-weight: normal;
+    letter-spacing: 1.5px;
+}
+
+.btn-salvar {
+    background-color: #1a1a1a;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+}
+
+.btn-salvar:hover {
+    background-color: #d4af37;
+    color: #000;
+}
+
+.btn-cancelar {
+    background-color: #1a1a1a;
+    color: #ff3333;
+    border: 1px solid #ff3333;
+}
+
+.btn-cancelar:hover {
+    background-color: #ff3333;
+    color: #fff;
+
+}
+
+
+footer {
+    background-color: #0c0c0c;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+footer p {
+    margin: 10px;
+}

@@ -1,0 +1,499 @@
+/* ==========================================================
+   1. FONTES PERSONALIZADAS
+   ========================================================== */
+@font-face {
+    font-family: 'Nav';
+    src: url('/font/BiotripSerif-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Logo';
+    src: url('/font/Marley%20Antique.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'texto';
+    src: url('/font/Eloura%20Sans.otf') format('truetype');
+}
+
+/* ==========================================================
+   2. RESET E ESTRUTURA BASE
+   ========================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ==========================================================
+   3. CABEÇALHO E NAVEGAÇÃO
+   ========================================================== */
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: #0c0c0c;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    height: 75px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.Logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 30px;
+    font-family: 'Logo', serif;
+    letter-spacing: 1px;
+}
+
+.LogoImg {
+    height: 48px;
+    width: auto;
+    margin-right: 12px;
+}
+
+.Logo span,
+.Logo li {
+    list-style: none;
+}
+
+.Links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    list-style: none;
+}
+
+    .Links a {
+        text-decoration: none;
+        color: #ffffff;
+        font-size: 18px;
+        font-family: 'Nav', serif;
+        transition: color 0.2s ease;
+    }
+
+        .Links a:hover {
+            color: #d4af37;
+        }
+
+/* ==========================================================
+   4. SEÇÕES GERAIS E CONTAINER
+   ========================================================== */
+.container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+}
+
+.secao {
+    padding: 70px 20px;
+    background-color: #121212;
+    color: #ffffff;
+    text-align: center;
+}
+
+.titulo {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+    .titulo h1 {
+        font-family: 'Nav', serif;
+        font-size: 46px;
+        margin-bottom: 12px;
+        letter-spacing: 2px;
+        color: #ffffff;
+    }
+
+    .titulo p {
+        font-family: 'texto', sans-serif;
+        font-size: 19px;
+        color: #aaaaaa;
+        max-width: 750px;
+        margin: 0 auto;
+        line-height: 1.5;
+    }
+
+/* ==========================================================
+   5. SEÇÃO SOBRE
+   ========================================================== */
+.container-sobre {
+    display: flex;
+    flex-direction: column;
+    padding: 0 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#sobre {
+    padding-top: 130px;
+    padding-bottom: 60px;
+}
+
+.secao-flex {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+    .secao-flex > div {
+        flex: 1;
+    }
+
+.imagem-sobre img {
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.texto-sobre {
+    text-align: left;
+}
+
+    .texto-sobre h1 {
+        font-size: 44px;
+        font-family: 'Logo', serif;
+        font-weight: normal;
+        color: #d4af37;
+        margin-bottom: 20px;
+    }
+
+    .texto-sobre p {
+        font-size: 20px;
+        font-family: 'texto', sans-serif;
+        font-weight: normal;
+        letter-spacing: 1px;
+        line-height: 1.6;
+        color: #cccccc;
+    }
+
+/* ==========================================================
+   6. SEÇÃO SERVIÇOS (CARDS DINÂMICOS)
+   ========================================================== */
+.lista-servicos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.card-servico {
+    background-color: #1a1a1a;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 12px;
+    padding: 35px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card-servico:hover {
+        transform: translateY(-6px);
+        border-color: #d4af37;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 175, 55, 0.2);
+    }
+
+    .card-servico h3 {
+        color: #ffffff;
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+        font-family: 'Nav', serif;
+    }
+
+    .card-servico .preco {
+        color: #d4af37;
+        font-size: 1.6rem;
+        font-weight: bold;
+        font-family: 'texto', sans-serif;
+        margin-bottom: 22px;
+    }
+
+    .card-servico .btn-escolher {
+        background-color: #d4af37;
+        color: #121212;
+        padding: 10px 26px;
+        border-radius: 8px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        display: inline-block;
+    }
+
+        .card-servico .btn-escolher:hover {
+            background-color: #f1c40f;
+            transform: scale(1.05);
+        }
+
+/* ==========================================================
+   7. SEÇÃO PORTFÓLIO
+   ========================================================== */
+.portfolio {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.fotos {
+    width: 30%;
+    min-width: 260px;
+    font-family: 'Nav', serif;
+    color: #ffffff;
+    text-align: center;
+}
+
+    .fotos img {
+        width: 100%;
+        height: 320px;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 1px solid #2a2a2a;
+        transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+        .fotos img:hover {
+            transform: scale(1.03);
+            border-color: #d4af37;
+        }
+
+    .fotos p {
+        margin-top: 12px;
+        font-size: 1rem;
+        color: #bbb;
+    }
+
+/* ==========================================================
+   8. SEÇÃO LOCALIZAÇÃO
+   ========================================================== */
+.mapa {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+    .mapa iframe {
+        border: 0;
+        border-radius: 14px;
+        width: 60%;
+        height: 380px;
+        border: 1px solid #333;
+    }
+
+    .mapa > div {
+        width: 40%;
+        text-align: left;
+    }
+
+    .mapa h1 {
+        font-size: 1.15rem;
+        line-height: 1.5;
+        font-weight: 500;
+        color: #ddd;
+        margin-bottom: 15px;
+    }
+
+    .mapa a {
+        color: #d4af37;
+        text-decoration: none;
+        font-weight: 700;
+        transition: color 0.2s ease;
+    }
+
+        .mapa a:hover {
+            color: #f1c40f;
+            text-decoration: underline;
+        }
+
+/* ==========================================================
+   9. SEÇÃO AGENDAMENTO (CALL TO ACTION HOME)
+   ========================================================== */
+#agendar {
+    padding-top: 70px;
+    padding-bottom: 100px; /* Garante distância segura do rodapé */
+}
+
+.cta-agendar-box {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.cta-card {
+    background: #1a1a1a;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 16px;
+    padding: 50px 35px;
+    text-align: center;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+}
+
+.cta-icone {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.cta-card h2 {
+    color: #ffffff;
+    font-size: 2rem;
+    font-family: 'Nav', serif;
+    margin-bottom: 12px;
+}
+
+.cta-card p {
+    color: #cccccc;
+    font-size: 1.1rem;
+    font-family: 'texto', sans-serif;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.btn-ir-agendar {
+    background-color: #d4af37;
+    color: #121212;
+    padding: 15px 40px;
+    border-radius: 8px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+    .btn-ir-agendar:hover {
+        background-color: #f1c40f;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.35);
+    }
+
+/* ==========================================================
+   10. RODAPÉ (FOOTER)
+   ========================================================== */
+footer {
+    background-color: #0a0a0a;
+    border-top: 1px solid #222222;
+    padding: 25px 20px;
+    text-align: center;
+    width: 100%;
+}
+
+    footer p {
+        color: #888888;
+        font-size: 0.95rem;
+    }
+
+    footer a {
+        color: #d4af37;
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 5px;
+    }
+
+        footer a:hover {
+            text-decoration: underline;
+            color: #f1c40f;
+        }
+
+/* ==========================================================
+   11. RESPONSIVIDADE
+   ========================================================== */
+@media (max-width: 900px) {
+    .mapa {
+        flex-direction: column;
+    }
+
+        .mapa iframe,
+        .mapa > div {
+            width: 100%;
+            text-align: center;
+        }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 0 20px;
+    }
+
+    .Links {
+        gap: 15px;
+    }
+
+        .Links a {
+            font-size: 16px;
+        }
+
+    .secao-flex {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .texto-sobre {
+        text-align: center;
+    }
+
+        .texto-sobre h1 {
+            font-size: 36px;
+        }
+
+    .titulo h1 {
+        font-size: 36px;
+    }
+
+    .fotos {
+        width: 45%;
+    }
+
+    .cta-card {
+        padding: 35px 20px;
+    }
+
+        .cta-card h2 {
+            font-size: 1.6rem;
+        }
+}
+
+@media (max-width: 480px) {
+    .fotos {
+        width: 100%;
+    }
+
+    .Links {
+        display: none; /* Em telas muito pequenas o menu colapsa */
+    }
+}

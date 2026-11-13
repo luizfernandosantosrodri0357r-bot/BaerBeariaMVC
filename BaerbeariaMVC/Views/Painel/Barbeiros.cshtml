@@ -1,0 +1,543 @@
+﻿@model List<BaerbeariaMVC.Models.Barbeiro>
+@{
+    Layout = null;
+    var diasInativos = ViewBag.Dias as List<BaerbeariaMVC.Models.BarbeiroInativoDia>;
+    var aviso = TempData["Aviso"] as string;
+    var ok = TempData["Ok"] as string;
+}
+
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Barbeiros - Barber UNIP</title>
+
+        
+    <link rel="icon" href="~/img/icon/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="apple-touch-icon" href="~/img/icon/apple-touch-icon.png">
+
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="~/img/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/img/icon/favicon-16x16.png">
+    <link rel="manifest" href="~/img/icon/site.webmanifest">
+    <link rel="stylesheet" href="~/css/style.css">
+
+    <style>
+        body {
+            background-color: #0e0e0e;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Topo Administrativo */
+        header {
+            background-color: #141414;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .Logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .LogoImg {
+            height: 42px;
+            width: auto;
+        }
+
+        .Links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .Links a, .btn-logout {
+            color: #dddddd;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .Links a:hover, .btn-logout:hover {
+            color: #d4af37;
+        }
+
+        .Links a.ativo {
+            color: #d4af37;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 4px;
+        }
+
+        /* Contentor e Secções */
+        .container-admin {
+            flex: 1;
+            max-width: 1250px;
+            width: 100%;
+            margin: 30px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .secao-admin-bloco {
+            background-color: #181818;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .topo-secao {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 15px;
+        }
+
+        .topo-secao h2 {
+            color: #d4af37;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        /* Notificações e Alertas */
+        .alerta {
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alerta-aviso {
+            background-color: rgba(231, 76, 60, 0.15);
+            border: 1px solid #e74c3c;
+            color: #ff6b6b;
+        }
+
+        .alerta-ok {
+            background-color: rgba(46, 204, 113, 0.15);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+        }
+
+        /* Formulário de Novo Barbeiro */
+        .form-novo-barbeiro {
+            display: flex;
+            gap: 12px;
+            max-width: 600px;
+        }
+
+        .form-novo-barbeiro input {
+            flex: 1;
+            background-color: #242424;
+            border: 1px solid #444;
+            color: #ffffff;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-novo-barbeiro input:focus {
+            border-color: #d4af37;
+        }
+
+        .btn-dourado {
+            background-color: #d4af37;
+            color: #121212;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-dourado:hover {
+            background-color: #f1c40f;
+            transform: translateY(-1px);
+        }
+
+        /* Tabelas */
+        .tabela-responsiva {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .tabela-admin {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .tabela-admin th {
+            background-color: #121212;
+            color: #d4af37;
+            padding: 14px 16px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #2a2a2a;
+        }
+
+        .tabela-admin td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #242424;
+            font-size: 0.95rem;
+            color: #dddddd;
+            vertical-align: middle;
+        }
+
+        .tabela-admin tbody tr:hover {
+            background-color: #1e1e1e;
+        }
+
+        /* Badges de Estado */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .badge-ativo {
+            background-color: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .badge-inativo {
+            background-color: rgba(150, 150, 150, 0.15);
+            color: #aaaaaa;
+            border: 1px solid rgba(150, 150, 150, 0.3);
+        }
+
+        /* Formulários nas Ações da Tabela */
+        .acoes-tabela {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .form-inativar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #202020;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #333;
+        }
+
+        .form-inativar input[type="date"] {
+            background-color: #181818;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .btn-acao {
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .btn-status {
+            background-color: #252525;
+            color: #ffffff;
+            border-color: #444444;
+        }
+
+        .btn-status:hover {
+            border-color: #d4af37;
+            color: #d4af37;
+        }
+
+        .btn-marcar {
+            background-color: #2a2a2a;
+            color: #d4af37;
+            border-color: #d4af37;
+        }
+
+        .btn-marcar:hover {
+            background-color: #d4af37;
+            color: #121212;
+        }
+
+        .btn-excluir {
+            background-color: rgba(231, 76, 60, 0.15);
+            color: #ff6b6b;
+            border-color: #e74c3c;
+        }
+
+        .btn-excluir:hover {
+            background-color: #e74c3c;
+            color: #ffffff;
+        }
+
+        .btn-reativar {
+            background-color: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border-color: #2ecc71;
+        }
+
+        .btn-reativar:hover {
+            background-color: #2ecc71;
+            color: #121212;
+        }
+
+        .sem-dados {
+            text-align: center;
+            padding: 30px;
+            color: #777777;
+            font-size: 0.95rem;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #0c0c0c;
+            border-top: 1px solid #222222;
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        footer p {
+            color: #777777;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a asp-controller="Painel" asp-action="Index" class="Logo">
+                <img src="~/img/logo/barbearia.png" alt="Logo" class="LogoImg">
+                <span>Barber UNIP - Admin</span>
+            </a>
+            <ul class="Links">
+                <li><a asp-controller="Painel" asp-action="Index">Agendamentos</a></li>
+                <li><a asp-controller="Painel" asp-action="Barbeiros" class="ativo">Barbeiros</a></li>
+                <li><a asp-controller="Painel" asp-action="Servicos">Serviços</a></li>
+                <li>
+                    <form asp-controller="Conta" asp-action="Sair" method="post" style="display:inline;">
+                        <button type="submit" class="btn-logout">Sair</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container-admin">
+
+        
+        @if (!string.IsNullOrEmpty(aviso))
+        {
+            <div class="alerta alerta-aviso">
+                <span>⚠️</span>
+                <span>@aviso</span>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(ok))
+        {
+            <div class="alerta alerta-ok">
+                <span>✓</span>
+                <span>@ok</span>
+            </div>
+        }
+
+        
+        <section class="secao-admin-bloco">
+            <div class="topo-secao">
+                <h2>Cadastrar Novo Barbeiro</h2>
+            </div>
+            <form asp-action="CadastrarBarbeiro" method="post" class="form-novo-barbeiro">
+                <input type="text" name="nome" placeholder="Nome completo do barbeiro" maxlength="100" required autocomplete="off" />
+                <button type="submit" class="btn-dourado">Registar Barbeiro</button>
+            </form>
+        </section>
+
+        
+        <section class="secao-admin-bloco">
+            <div class="topo-secao">
+                <h2>Barbeiros Registados</h2>
+            </div>
+
+            <div class="tabela-responsiva">
+                <table class="tabela-admin">
+                    <thead>
+                        <tr>
+                            <th>Nome do Profissional</th>
+                            <th>Estado</th>
+                            <th>Ações e Definição de Folgas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var b in Model)
+                            {
+                                <tr>
+                                    <td><strong style="color: #fff; font-size: 1.05rem;">@b.Nome</strong></td>
+                                    <td>
+                                        @if (b.Ativo)
+                                        {
+                                            <span class="badge badge-ativo">Ativo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-inativo">Inativo</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="acoes-tabela">
+                                            
+                                            <form asp-action="AlternarAtivo" method="post" style="display:inline;">
+                                                <input type="hidden" name="id" value="@b.Id" />
+                                                <button type="submit" class="btn-acao btn-status">
+                                                    @(b.Ativo ? "Desativar" : "Ativar")
+                                                </button>
+                                            </form>
+
+                                            
+                                            <form asp-action="InativarDia" method="post" class="form-inativar">
+                                                <input type="hidden" name="id" value="@b.Id" />
+                                                <input type="date" name="data" min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                                                <button type="submit" class="btn-acao btn-marcar" title="Marcar dia sem atendimento">
+                                                    Marcar Folga
+                                                </button>
+                                            </form>
+
+                                            
+                                            <form asp-action="ExcluirBarbeiro" method="post" onsubmit="return confirm('Deseja realmente eliminar @b.Nome? (Apenas permitido se não houver histórico de agendamentos)');" style="display:inline;">
+                                                <input type="hidden" name="id" value="@b.Id" />
+                                                <button type="submit" class="btn-acao btn-excluir">
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="sem-dados">Nenhum barbeiro registado até ao momento.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        
+        <section class="secao-admin-bloco">
+            <div class="topo-secao">
+                <h2>Próximos Dias Sem Atendimento (Folgas Marcadas)</h2>
+            </div>
+
+            <div class="tabela-responsiva">
+                <table class="tabela-admin">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Barbeiro</th>
+                            <th style="text-align: right;">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (diasInativos != null && diasInativos.Any())
+                        {
+                            foreach (var dia in diasInativos)
+                            {
+                                <tr>
+                                    <td><strong style="color: #d4af37;">@dia.Data.ToString("dd/MM/yyyy (dddd)")</strong></td>
+                                    <td>@(dia.Barbeiro?.Nome ?? "N/D")</td>
+                                    <td style="text-align: right;">
+                                        <form asp-action="ReativarDia" method="post" style="display:inline;">
+                                            <input type="hidden" name="id" value="@dia.Id" />
+                                            <button type="submit" class="btn-acao btn-reativar">
+                                                Remover Folga (Reativar Dia)
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="sem-dados">Nenhum dia sem atendimento marcado para datas futuras.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Barber Unip. Painel Administrativo de Gestão.</p>
+    </footer>
+</body>
+
+</html>

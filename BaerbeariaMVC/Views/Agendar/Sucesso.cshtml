@@ -1,0 +1,209 @@
+﻿@model BaerbeariaMVC.Models.Agendamento
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento Confirmado - Barber UNIP</title>
+        
+    <link rel="icon" href="~/img/icon/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="apple-touch-icon" href="~/img/icon/apple-touch-icon.png">
+
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="~/img/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/img/icon/favicon-16x16.png">
+    <link rel="manifest" href="~/img/icon/site.webmanifest">
+    <link rel="stylesheet" href="~/css/style.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card-sucesso {
+            background: #1a1a1a;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            max-width: 520px;
+            width: 100%;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .icone-sucesso {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.15);
+            border: 2px solid #d4af37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            font-size: 2.2rem;
+            color: #d4af37;
+        }
+
+        .card-sucesso h1 {
+            color: #d4af37;
+            font-size: 1.9rem;
+            margin: 0 0 8px 0;
+        }
+
+        .subtitulo {
+            color: #aaa;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        .resumo-agendamento {
+            background: #222222;
+            border: 1px solid #333333;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .item-resumo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #2d2d2d;
+        }
+
+        .item-resumo:last-child {
+            border-bottom: none;
+        }
+
+        .item-resumo .rotulo {
+            color: #888888;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .item-resumo .valor {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .item-resumo .valor.destaque {
+            color: #d4af37;
+        }
+
+        .botoes-acao {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-principal {
+            background-color: #d4af37;
+            color: #121212;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-principal:hover {
+            background-color: #f1c40f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-secundario {
+            background: transparent;
+            color: #aaa;
+            border: 1px solid #444;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-secundario:hover {
+            border-color: #d4af37;
+            color: #d4af37;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-sucesso">
+        <div class="icone-sucesso">✓</div>
+        <h1>Agendamento Confirmado!</h1>
+        <p class="subtitulo">O seu horário foi reservado com sucesso na Barber UNIP.</p>
+
+        <div class="resumo-agendamento">
+            <div class="item-resumo">
+                <span class="rotulo">Cliente</span>
+                <span class="valor">@Model.NomeCliente</span>
+            </div>
+            <div class="item-resumo">
+                <span class="rotulo">Contacto</span>
+                <span class="valor">
+                    @if (!string.IsNullOrEmpty(Model.Telefone) && Model.Telefone.Length == 11)
+                    {
+                        @($"({Model.Telefone.Substring(0, 2)}) {Model.Telefone.Substring(2, 5)}-{Model.Telefone.Substring(7)}")
+                    }
+                    else
+                    {
+                        @Model.Telefone
+                    }
+                </span>
+            </div>
+            <div class="item-resumo">
+                <span class="rotulo">Profissional</span>
+                <span class="valor">@(Model.Barbeiro?.Nome ?? "Não informado")</span>
+            </div>
+            <div class="item-resumo">
+                <span class="rotulo">Serviço</span>
+                <span class="valor destaque">
+                    @(Model.Servico?.Nome ?? "Serviço")
+                    @if (Model.Servico != null)
+                    {
+                        <text>- R$ @Model.Servico.Preco.ToString("N2")</text>
+                    }
+                </span>
+            </div>
+            <div class="item-resumo">
+                <span class="rotulo">Data e Hora</span>
+                <span class="valor destaque">@Model.DataHora.ToString("dd/MM/yyyy 'às' HH:mm")</span>
+            </div>
+        </div>
+
+        <div class="botoes-acao">
+            <a asp-controller="Agendar" asp-action="Index" class="btn-principal">
+                Fazer Outro Agendamento
+            </a>
+            <a asp-controller="Home" asp-action="Index" class="btn-secundario">
+                Voltar à Página Inicial
+            </a>
+        </div>
+    </div>
+</body>
+</html>
