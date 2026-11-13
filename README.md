@@ -23,5 +23,8 @@ Sistema de gerenciamento para Barbearia desenvolvido em ASP.NET Core MVC.
 
 ## 👨‍💻 Autor
 Luiz Fernando Santos Rodrigues
-Thiago Araujo Silva
+Thiago Araújo Silva
+Paulo Victor Pereira Almeida Frazão
+Paulo Fernando Ferreira Bispo de Castro
+
 Projeto Final - Barbearia MVC
